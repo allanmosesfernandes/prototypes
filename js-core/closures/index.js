@@ -47,4 +47,76 @@ Common Pitfalls and Tips
 Scope Confusion: Remember, it's about where the function is defined, not where it's called. If you define a function inside another, it gets a closure.
 Memory Leaks: Closures can keep variables in memory longer than expected, so be mindful in long-running apps (e.g., event listeners).
 Testing It Out: Try modifying the example above in your index.js file. Add the code after your comment, run it in Node.js, and see the output.
-/*
+*/
+
+function outerFunction() {
+    let outerVariable = "hello from the outer variable";
+
+    function innerFunction() {
+        console.log(outerVariable); // Inner function can access outerVariable (closure in action)
+    }
+
+    return innerFunction;
+}
+
+const closureFunc = outerFunction();
+// console.log(closureFunc());
+
+// function createCounter() {
+//     let count = 0;
+//
+//     return {
+//         increment() {
+//             count++;
+//         },
+//         sub() {
+//             count--;
+//         },
+//         getCount() {
+//             return count;
+//         }
+//     }
+// }
+//
+// let counter = createCounter();
+// counter.increment();
+// counter.increment();
+// counter.increment();
+// counter.sub();
+// console.log(counter.getCount());
+
+function createCounter() {
+    let count = 0;
+    return {
+        increment() {
+            count++;
+        },
+        decrement() {
+            count--;
+        },
+        getCount() {
+            console.log(count);
+            return count;
+        }
+    }
+}
+
+function multiplier(x) {
+    return function (y) {
+        return x * y;
+    }
+}
+
+const double = multiplier(2);
+const triple = multiplier(3);
+console.log(double(2));
+console.log(triple(9));
+
+function createLogger(prefix) {
+    return function(message) {
+        console.log(`[${prefix}] ${message}`)
+    }
+}
+
+const debug = createLogger('debug');
+debug('Server has started')
